@@ -22,7 +22,7 @@ class CreatePayment extends Migration
             $table->text('bank');
             $table->text('bank_number');
             $table->text('prove')->nullable();
-            $table->text('status')->default('Dalam Proses');
+            $table->string('status')->default('Dalam Proses');
             $table->timestamps();
         });
     }
