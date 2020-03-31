@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return cb()->redirect('/member/login','Silakan login terlebih dahulu','success');
 });
 Route::group(['middleware' => ['web', \ersaazis\cb\middlewares\CBBackend::class], 'prefix' => cb()->getAdminPath()], function () {
     Route::get('/getproject/{id}','AdminPekerjaanController@getproject');
