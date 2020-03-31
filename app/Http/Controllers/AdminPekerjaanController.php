@@ -40,6 +40,23 @@ class AdminPekerjaanController extends CBController {
 			<p>Anda hanya bisa mengambil <b>MAX 3</b> proyek, jika ingin menambah lagi, silakan selesaikan terlebih dahulu proyek yang diambil sebelumnya.</p>
 		</div>
 		');
+		$this->setBeforeDetailForm(function($row) {
+			if($row->users_id != cb()->session()->id()) return cb()->redirect(cb()->getAdminUrl(),cbLang("you_dont_have_privilege_to_this_area"));
+			$project = DB::table('project')->find($row->project_id);
+			return '
+			<div class="box box-default">
+				<div class="box-header with-border">
+					<h1 class="box-title"><i class="fa fa-briefcase"></i> Detail Project</h1>
+				</div>
+				<div class="box-body" style="padding:10px;margin:10px;border:1px solid #ccc">
+					<h4>'.$project->title.'</h4>
+					<hr style="margin-top:0px">
+					'.$project->description.'
+				</div>
+				<br>
+			</div>
+			';
+        });
 		$this->hookIndexQuery(function($query) {
             $query->where("users_id",cb()->session()->id());
             $query->orderBy("expire","ASC");
@@ -78,7 +95,8 @@ class AdminPekerjaanController extends CBController {
         if(!module()->canUpdate()) return cb()->redirect(cb()->getAdminUrl(),cbLang("you_dont_have_privilege_to_this_area"));
 
         $data = [];
-        $data['row'] = DB::table('job')->find($id);
+		$data['row'] = DB::table('job')->find($id);
+        if($data['row']->users_id != cb()->session()->id()) return cb()->redirect(cb()->getAdminUrl(),cbLang("you_dont_have_privilege_to_this_area"));
         $data['project'] = DB::table('project')->find($data['row']->project_id);
         $data['page_title'] = 'Pekerjaan : '.cbLang('edit');
         $data['action_url'] = module()->editSaveURL($id);
