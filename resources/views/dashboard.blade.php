@@ -1,5 +1,8 @@
 @extends('crud::themes.adminlte.layout.layout')
 @section('content')
+    <div class="callout callout-info">
+        <p>Apa bila ada masalah jangan ragu menghubungi kami. WhatsApp <a href="https://wa.me/6289656217609" target="_blank">0896 5621 7609</a></p>
+    </div>
     <div class="row">
         <div class="col-lg-3 col-xs-6">
             <div class="small-box bg-primary">
