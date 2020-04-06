@@ -105,4 +105,48 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h1 class="box-title"><i class="fa fa-users"></i> Top Users</h1>
+                </div>
+                <div class="box-body">
+                    <ul class="products-list product-list-in-box">
+                        @foreach ($users as $item)
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">{{$item->name}}
+                                        <span class="label label-primary  pull-right">{{number_format($item->project_sucess)}} Projek Berhasil</span></a>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h1 class="box-title"><i class="fa fa-briefcase"></i> Informasi Project</h1>
+                </div>
+                <div class="box-body">
+                    <ul class="products-list product-list-in-box">
+                        @foreach ($info as $item)
+                            <li class="item">
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">{{$item->project}}
+                                        <span class="label label-primary  pull-right">+ Rp. {{number_format($item->fee)}} ,-</span></a>
+                                    <span class="product-description">
+                                        {{$item->info}}
+                                    </span>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

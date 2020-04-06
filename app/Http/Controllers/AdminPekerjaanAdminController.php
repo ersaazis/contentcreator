@@ -41,6 +41,11 @@ class AdminPekerjaanAdminController extends CBController {
 				'project_sucess'=>($user->project_sucess+1),
 				'fee'=>($user->fee+$job->fee)
 			]);
+			DB::table('info_masa')->insert([
+				'project'=>$job->title,
+				'fee'=>$job->fee,
+				'info'=>$user->name." Telah Berhasil Menyelesaikan Project ".$job->title." dengan bayaran ".$job->fee
+				]);
 		}
 		DB::table('job')->where('id',$data['id'])->update(['status'=>$data['status']]);
 		DB::table('notification')->insert([

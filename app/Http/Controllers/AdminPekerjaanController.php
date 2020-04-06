@@ -15,6 +15,14 @@ class AdminPekerjaanController extends CBController {
         $this->setPageTitle("Pekerjaan");
         $this->setButtonDelete(false);
 		$this->setButtonAdd(false);
+		$this->setButtonEdit(false);
+
+		
+        $this->addActionButton("Edit",function($row){
+            return cb()->getAdminUrl('pekerjaan/edit/'.$row->primary_key);
+        },function($row) {
+		    return $row->status != "Diterima";
+        },'fa fa-pencil','success');
 		
         $this->addSelectTable("User","users_id",["table"=>"users","value_option"=>"id","display_option"=>"name","sql_condition"=>""])->showEdit(false);
 		$this->addSelectTable("Projek","project_id",["table"=>"project","value_option"=>"id","display_option"=>"title","sql_condition"=>""])->showEdit(false);
@@ -96,6 +104,7 @@ class AdminPekerjaanController extends CBController {
 
         $data = [];
 		$data['row'] = DB::table('job')->find($id);
+		if($data['row']->status == "Diterima") return cb()->redirect(cb()->getAdminUrl(),cbLang("you_dont_have_privilege_to_this_area"));
         if($data['row']->users_id != cb()->session()->id()) return cb()->redirect(cb()->getAdminUrl(),cbLang("you_dont_have_privilege_to_this_area"));
         $data['project'] = DB::table('project')->find($data['row']->project_id);
         $data['page_title'] = 'Pekerjaan : '.cbLang('edit');
