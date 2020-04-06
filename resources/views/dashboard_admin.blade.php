@@ -44,8 +44,8 @@
         <div class="col-lg-3 col-xs-6">
             <div class="small-box bg-green-active">
                 <div class="inner">
-                    <h3>Rp. {{number_format($req_payment)}}</h3>
-                    <p>Request Penarikan</p>
+                    <h3>{{$req_payment}}</h3>
+                    <p>Cek Penarikan</p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-money"></i>
