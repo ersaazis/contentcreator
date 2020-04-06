@@ -12,7 +12,7 @@ class DashboardController extends Controller
         $data['page_title'] = "Dashboard";
         $data['users'] = DB::table('users')->orderBy('project_sucess','DESC')->limit(5)->get();
         $data['user'] = DB::table('users')->find(cb()->session()->id());
-        $data['info'] = DB::table('info_masa')->limit(5)->get();
+        $data['info'] = DB::table('info_masa')->limit(5)->orderBy('id','DESC')->get();
         if(cb()->session()->roleId() == 2) {
            $data['project_active']=DB::table('job')->where('users_id',cb()->session()->id())->where(function($q){
                 $q->where('status','Belum Dikerjakan')->orWhere('status','Ditolak');
