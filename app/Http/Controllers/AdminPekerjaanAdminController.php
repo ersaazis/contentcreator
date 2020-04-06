@@ -50,7 +50,7 @@ class AdminPekerjaanAdminController extends CBController {
 		DB::table('job')->where('id',$data['id'])->update(['status'=>$data['status']]);
 		DB::table('notification')->insert([
 			'users_id'=>$data['users_id'],
-			'title'=>'Project <a href="'.cb()->getAdminUrl('pekerjaan/edit/'.$job->id).'">'.$job->title.'</a> <b>'.$data['status'].'</b>',
+			'title'=>'Project <a href="'.cb()->getAdminUrl('pekerjaan/detail/'.$job->id).'">'.$job->title.'</a> <b>'.$data['status'].'</b>',
 			'description'=>$data['description']
 		]);
 		return cb()->redirectBack("Berhasil Di Simpan !", "success");
