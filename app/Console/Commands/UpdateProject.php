@@ -50,7 +50,7 @@ class UpdateProject extends Command
             $user=DB::table('users')->find($item->users_id);
             DB::table('users')->where('id',$item->users_id)->update([
                 'project_fail'=>$user->project_fail+1,
-                'active_project'=>$user->active_project+1,
+                'active_project'=>$user->active_project-1,
             ]);
 
             DB::table('notification')->insert([
