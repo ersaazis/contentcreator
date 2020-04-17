@@ -42,7 +42,7 @@ class AdminPenarikanUangAdminController extends CBController {
                 DB::table('users')->where('id',$data['users_id'])->update(['fee'=>$fee-$data['fee']]);
 		        return $data;
             }
-            else die(cb()->redirectBack("Pembayaran Terlalu Besar !", "danger"));
+            else return [];
         });
         $this->hookBeforeUpdate(function($data, $id) {
 			if($data['status'] == "Ditolak"){
