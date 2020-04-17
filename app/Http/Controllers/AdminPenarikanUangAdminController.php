@@ -62,6 +62,12 @@ class AdminPenarikanUangAdminController extends CBController {
                     'title'=>'Penarikan uang sebesar '.$data['fee'].' berhasil',
                     'description'=>$data['information']
                 ]);
+                $user=DB::table('users')->find($data['users_id']);
+                DB::table('info_masa')->insert([
+                    'project'=>"Penarikan Uang",
+                    'fee'=>$data['fee'],
+                    'info'=>$user->name." Telah Berhasil Melakukan Penarikan uang"
+                ]);
             }
 			return $data;
 		});
