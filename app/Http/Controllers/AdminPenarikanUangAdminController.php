@@ -35,6 +35,15 @@ class AdminPenarikanUangAdminController extends CBController {
 		$this->addWysiwyg("Information","information")->strLimit(150)->required(false);
 		$this->addDatetime("Created At","created_at")->required(false)->showIndex(false)->showAdd(false)->showEdit(false);
 		$this->addDatetime("Updated At","updated_at")->required(false)->showIndex(false)->showAdd(false)->showEdit(false);
+        $this->hookBeforeInsert(function($data) {
+            $user=DB::table('users')->find($data['users_id']);
+            $fee=$user->fee;
+            if($data['fee'] <= $fee){
+                DB::table('users')->where('id',$data['users_id'])->update(['fee'=>$fee-$data['fee']]);
+		        return $data;
+            }
+            else die(cb()->redirectBack("Pembayaran Terlalu Besar !", "danger"));
+        });
         $this->hookBeforeUpdate(function($data, $id) {
 			if($data['status'] == "Ditolak"){
                 DB::table('notification')->insert([
