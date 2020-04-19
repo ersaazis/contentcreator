@@ -24,6 +24,11 @@ class AdminPekerjaanAdminController extends CBController {
 		$this->addMoney("Bayaran","fee")->prefix('Rp.')->thousandSeparator(',')->required(false)->showAdd(false)->showEdit(false)->filterable(true);
 		$this->addDate("Batas Waktu","expire")->required(false)->showAdd(false)->showEdit(false)->filterable(true);
 		$this->addRadio("Status","status")->options(['Belum Dikerjakan'=>'Belum Dikerjakan','Dalam Proses'=>'Dalam Proses','Diterima'=>'Diterima','Ditolak'=>'Ditolak'])->required(false)->showAdd(false)->showEdit(false)->filterable(true);
+		$this->setBeforeDetailForm(function($row) {
+			$row=DB::table('project')->find($row->project_id);
+			// dd($row);
+            	return view("admin_project/project")->with('row',$row)->render();
+        });
 		$this->setAfterDetailForm(function($row) {
 			if($row->status != "Diterima")
             	return view("admin_project/konfirmasi")->with('row',$row)->render();
