@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use Closure;
 use ersaazis\cb\controllers\CBController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -32,7 +33,11 @@ class AdminPekerjaanAdminController extends CBController {
 		$this->setAfterDetailForm(function($row) {
 			if($row->status != "Diterima")
             	return view("admin_project/konfirmasi")->with('row',$row)->render();
-        });
+		});
+		$this->hookBeforeDelete(function($id) {
+			$job=DB::table('job')->find($id);
+			$this->updateProject($job->project_id);
+		});
 	}
     public function konfirmasi(Request $request)
 	{
@@ -60,4 +65,15 @@ class AdminPekerjaanAdminController extends CBController {
 		]);
 		return cb()->redirectBack("Berhasil Di Simpan !", "success");
 	}
+	private function updateProject($id){
+		$project=DB::table('project')->find($id);
+		DB::table('project')->where('id',$id)->update([
+			'taken'=>$project->taken-1
+		]);
+	}
+	private function hookBeforeDelete(Closure $callback)
+    {
+        $this->data['hook_before_delete'] = $callback;
+    }
+
 }
