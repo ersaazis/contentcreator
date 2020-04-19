@@ -15,7 +15,7 @@ class DashboardController extends Controller
         $data['info'] = DB::table('info_masa')->limit(5)->orderBy('id','DESC')->get();
         if(cb()->session()->roleId() == 2) {
            $data['project_active']=DB::table('job')->where('users_id',cb()->session()->id())->where(function($q){
-                $q->where('status','Belum Dikerjakan')->orWhere('status','Ditolak');
+                $q->where('status','!=','Diterima');
            })->count();
            $data['notif']=DB::table('notification')->where('users_id',cb()->session()->id())->limit(5)->orderBy('id','desc')->get();
            return view("dashboard", $data);
